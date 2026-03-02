@@ -11,9 +11,7 @@ Get-Command python | Select-Object -ExpandProperty Definition
 ```
 %AppData%\Local\Microsoft\WindowsApps
 ```
-&emsp;&ensp; es recomendable eliminar los archivos python.exe de la carpeta WindowsApps, pues tienen peso de 0 bytes y pueden
-
-&emsp;&ensp; ser una versión obsoleta del comando. Si aparece el error 0x80070780, elimine la carpeta completa.
+&emsp;&ensp; es recomendable eliminar los archivos python.exe de la carpeta WindowsApps, pues tienen peso de 0 bytes y pueden ser una versión obsoleta del comando. Si aparece el error 0x80070780, elimine la carpeta completa.
 
 3. Pulse la tecla Windows y busque variables de entorno, entre en Editar Variables del Sistema -> Variables de entorno -> Variables de usuario para [Usuario] -> Seleccione Path -> Editar -> Nuevo. En el campo de la nueva variable, escriba:
 ```
@@ -69,7 +67,7 @@ procesos en un determinado tiempo.
 2. **Resultados individuales**: Para saber el rendimiento del simulador, imprimimos los tiempos de espera, retorno y respuesta de cada proceso para
 observar qué se podría mejorar.
 
-3. **Promedio**: Para cada métrica de tiempo mencionada en los dos puntos anteriores (excepto inicio y fin) se tiene impreso el promedio de cada una en la consola de PowerShell al final de los resultados individuales. 
+3. **Promedio**: Para cada métrica de tiempo mencionada en el punto anterior, se tiene impreso el promedio de cada una en la consola de PowerShell al final de los resultados individuales. 
 
 ### Comparación
 
