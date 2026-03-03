@@ -44,10 +44,7 @@ tiene como objetivo que el Dispatcher seleccione el proceso de la Ready Queue de
 
 El algoritmo puede ser tanto preemptivo como no preemptivo. En esta implementación se escogió el enfoque no preemptivo.
 
-### Casos de prueba
-
-Los casos de prueba utilizados se encuentran en el archivo Procesos.txt. Además, para estos casos se realizó una gráfica de la frecuencia de
-procesos en un determinado tiempo.
+Debido a que los procesos pueden estar esperando una entrada/salida desde un dispositivo, si la CPU se queda esperando solo malgasta recursos, por lo que el procesos pasa de Running a Waiting y procede a otro proceso. Una vez se completa la entrada/salida esperada, pasa de Waiting a Ready para ejecutarse de nuevo por el Dispatcher. En este caso de Waiting, Lottery Scheduling debe incluir de nuevo ese proceso en el sorteo de boletos para la Ready Queue.
 
 ### Tiempos
 
@@ -67,7 +64,35 @@ procesos en un determinado tiempo.
 2. **Resultados individuales**: Para saber el rendimiento del simulador, imprimimos los tiempos de espera, retorno y respuesta de cada proceso para
 observar qué se podría mejorar.
 
-3. **Promedio**: Para cada métrica de tiempo mencionada en el punto anterior, se tiene impreso el promedio de cada una en la consola de PowerShell al final de los resultados individuales. 
+3. **Promedio**: Para cada métrica de tiempo mencionada en el punto anterior, se tiene impreso el promedio de cada una en la consola de PowerShell al final de los resultados individuales.
+
+### Casos de prueba
+
+Los casos base de prueba utilizados se encuentran en el archivo Procesos.txt. Además, para estos casos se realizó una gráfica de la frecuencia de
+procesos en un determinado tiempo.
+
+Otro caso de prueba es para Waiting con el proceso PID 2 del archivo, modificando sus valores (PID, llegada, ráfaga, prioridad) como sigue: (2,2,4,2) -> (2,198,5,1). Se hacen unas 10 ejecuciones con distintas tuplas reinstertadas de prueba y anotando un promedio de los resultados individuales respectivos, esto para observar a qué tiende el simulador, pues queremos considerar la parte del sorteo y que no siempre será el mismo ganador en X tiempo trascurrido.
+
+#### Ejecuciones sin superposición de llegada
+1. 10 ejecuciones de (2,198,5,1): Prom. Espera = 335.6363636, Prom. Retorno = 340.6363636, Prom. Respuesta = 335.6363636
+2. 10 ejecuciones de (2,198,1,5): Prom. Espera = 129.2727273, Prom. Retorno = 130.2727273, Prom. Respuesta = 129.2727273
+3. 10 ejecuciones de (2,198,5,5): Prom. Espera = 106.9090901, Prom. Retorno = 111.9090909, Prom. Respuesta = 106.9090901
+4. 10 ejecuciones de (2,198,1,1): Prom. Espera = 283.2727273, Prom. Retorno = 284.2727273, Prom. Respuesta = 283.2727273
+#### Ejecuciones con superposición de llegada después de PID 4
+6. 10 ejecuciones de (2,6,5,1): Prom. Espera = 314.7272727, Prom. Retorno = 318.8181818, Prom. Respuesta = 314.7272727
+7. 10 ejecuciones de (2,6,1,5): Prom. Espera = 28.18181818, Prom. Retorno = 29.18181818, Prom. Respuesta = 28.18181818
+8. 10 ejecuciones de (2,6,5,5): Prom. Espera = 23.09090909, Prom. Retorno = 28.09090909, Prom. Respuesta = 23.09090909
+9. 10 ejecuciones de (2,6,1,1): Prom. Espera = 138.1818182, Prom. Retorno = 139.1818182, Prom. Respuesta = 138.1818182
+10. #### Ejecuciones con superposición de llegada antes de PID 4
+6. 10 ejecuciones de (2,6,5,1): Prom. Espera = 256.9090909, Prom. Retorno = 261.9090909, Prom. Respuesta = 256.9090909
+7. 10 ejecuciones de (2,6,1,5): Prom. Espera = 90, Prom. Retorno = 91, Prom. Respuesta = 90
+8. 10 ejecuciones de (2,6,5,5): Prom. Espera = 9.454545455, Prom. Retorno = 14.54545455, Prom. Respuesta = 9.454545455
+9. 10 ejecuciones de (2,6,1,1): Prom. Espera = 320.9090909, Prom. Retorno = 321.9090909, Prom. Respuesta = 320.9090909
+
+El simulador se puede pensar que tiene una tendencia a favorecer a quienes llegan primero o tengan prioridad alta cuando hay superposición. Y favorece a los que llegan primero cuando no hay superposición.
+
+Los resultados de las gráficas indican en su mayoría que varios procesos con ráfagas cortas se encuentran completados en las primeras 100 unidades de tiempo,
+por lo que este simulador tiende a completar procesos cortos y dejar los largos para el último.
 
 ### Comparación
 
